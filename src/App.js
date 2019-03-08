@@ -1,27 +1,58 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Header from "./components/Header";
+import Pokemon from "./components/Pokemon";
 
 class App extends Component {
+  
+  state = {
+    pokemon: [],
+    pokeImageUrl:{}
+  };
+
+  componentDidMount() {
+    this.consultarPokemons();
+  }
+
+  consultarPokemons = () => {
+    let url = "https://pokeapi.co/api/v2/pokemon/6";
+    fetch(url)
+      .then(resp => {
+        return resp.json();
+      })
+      .then(poke => {
+        this.setState({
+          pokemon: poke,
+          pokeImageUrl:poke.sprites.front_default,
+        })   
+      
+      })
+  };
+
+
+  
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    
+      return (
+        <div className="App">
+          <Header titulo="POKEMON API" />
+          <div className="container white contenedor-noticias">
+          {/* {
+            this.state.pkemones.map(elemnt => {
+              return <Pokemon />
+            })
+          } */}
+            <Pokemon 
+              pokemon = {this.state.pokemon}
+              pokeImageUrl = {this.state.pokeImageUrl}
+            />
+          </div>
+         
+        </div>
+      );
+    
+    
+    
   }
 }
 
